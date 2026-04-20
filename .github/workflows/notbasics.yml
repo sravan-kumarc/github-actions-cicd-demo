@@ -1,0 +1,45 @@
+name: CICD Base
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      version:
+        description: 'Version to deploy'
+        required: true
+        default: '1.0.0'
+        type: choice
+        options:
+          - 1.0.0
+          - 1.0.1
+          - 1.0.2
+      deploy:
+        description: 'Deploy to environment'
+        required: true
+        default: true
+        type: boolean
+      artifacts_tag:
+        description: 'Tag for artifacts'
+        required: false
+        default: 'latest'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Simple ECHO
+        run: echo "Building version ${{ github.event.inputs.version }} for environment ${{ github.event.inputs.environment }} with deploy set to ${{ github.event.inputs.deploy }} and artifacts tag ${{ github.event.inputs.artifacts_tag }}"
+
+        
