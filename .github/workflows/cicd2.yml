@@ -15,7 +15,14 @@ on:
          - dev
          - uat
          - prod
-#####################################
+     artifact_tags:
+       description: Please Maintain Artifacts for references.
+       default: "0.0.0_None"
+       required: true
+    
+################################### (2)     
+  
+
 
 jobs:
   build:
@@ -25,9 +32,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Custom_message(1)
+      - name: Custom_message(1_IMPROVED)
         run: |
-          echo "Deployed at ${{ inputs.environment }}"    #<-------(1)
+          echo "Deployed at ${{ inputs.environment }}  #<-------(1-Improved)"
 
 
       - name: Setup Python
