@@ -1,0 +1,59 @@
+name: Project - Parallel Jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  # 🔹 Job 1
+  build-node:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simulate Node build
+        run: |
+          echo "Node build started"
+          sleep 5
+          echo "Node build done" > node.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-build
+          path: node.txt
+
+
+  # 🔹 Job 2
+  build-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simulate Python build
+        run: |
+          echo "Python build started"
+          sleep 5
+          echo "Python build done" > python.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-build
+          path: python.txt
+
+
+  # 🔹 Job 3 (depends on both)
+  aggregate:
+    runs-on: ubuntu-latest
+    needs: [build-node, build-python]
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Show results
+        run: |
+          echo "=== Node Output ==="
+          cat node-build/node.txt
+
+          echo "=== Python Output ==="
+          cat python-build/python.txt
