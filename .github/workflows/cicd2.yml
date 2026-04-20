@@ -25,6 +25,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Custom_message(1)
+        run: |
+          echo "Deployed at ${{ inputs.environment }}"    #<-------(1)
+
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
